@@ -81,7 +81,7 @@ signed main(int argc, char* argv[]) {
 		cout << "usage:\ncomputer-burner.exe [--thread/-t <num>] [--wait/-w <num>] [--help/-h]\n";
 		cout << "--thread or -t <num> : create <num> treads, defult 400\n";
 		cout << "--wait or -w <num> : wait <num>ms before start defult 0\n";
-		cout << " --help or -h : show this help message\n";
+		cout << "--help or -h : show this help message\n";
 		cout << "for more imformation ,visit github: https://github.com/DDEEII/computer-burner\n";
 		return 0;
 	}if (argc >= 3) {
