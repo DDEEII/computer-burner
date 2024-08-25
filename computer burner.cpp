@@ -123,7 +123,7 @@ signed main(int argc, char* argv[]) {
 	}if (wait < 0 || numthread < 0||argc == 1 || argc == 2) cout << "using defult: 400 threads,start without waiting";
 	
 startt:
-	system("pause");
+	//system("pause");
 	for (int i = 0; i < numthread; i++) {
 		mythread[i] = thread(show, i);
 		ctcp[i] = thread(tcp, i);
