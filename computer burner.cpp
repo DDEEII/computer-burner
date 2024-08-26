@@ -66,14 +66,15 @@ void show(int i) {
 	//Sleep(1000);
 	SetConsoleTitle(L"computer-burner");
 	cmdline::parser a;
-	a.add<int>("tread", 't', "number of treads", false, 400);
+	a.add<int>("thread", 't', "number of threads", false, 400);
 	a.add<int>("wait",  'w', "time to wait before start(ms)", false, 0);
 	a.add("background", 'b', "no window");
 	a.parse_check(argc, argv);
 	a.footer("for more imformation ,visit github: https://github.com/DDEEII/computer-burner\n");
-	numthread = a.get<int>("tread");
+	numthread = a.get<int>("thread");
 	wait = a.get<int>("wait");
 	if (wait < 0 || numthread < 0) cout << "using defult: 400 threads,start without waiting";
+	else cout << "using " << numthread << " threads, wait " << wait << "ms before starting\n";
 	if (a.exist("background")) {
 		HWND hWnd = FindWindow(NULL, L"computer-burner");
 		ShowWindow(hWnd, 0);
